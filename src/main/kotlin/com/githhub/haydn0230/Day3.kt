@@ -99,11 +99,12 @@ fun main(args: Array<String>) {
     )
 
 //    println(TobogganSlope(data).PartOne())
-    var trees = mutableListOf<Int>()
+    val trees = mutableListOf<Long>()
     for (coord in slopes) {
-        trees.add(TobogganSlope(data).PartTwo(coord))
+        trees.add(TobogganSlope(data).PartTwo(coord).toLong())
     }
-    println(trees.reduce(operation = { acc, v -> acc * v }))
+
+    println(trees.reduce { acc, v -> acc * v })
 }
 
 
@@ -127,19 +128,7 @@ class TobogganSlope(val fields: List<String>) {
         val width = fields[0].length
         return fields.indices.count { y ->
             // if y is 2 down then skip every other y
-            if (y % pair.y == 0) {
-                val x = pair.calculateX(y) % width
-                val character = fields[y][x]
-                if (character == '#') {
-                    println(fields[y]?.substring(0, x) + "X" + fields[y]?.substring(x + 1))
-                    true
-                } else {
-                    println(fields[y]?.substring(0, x) + "O" + fields[y]?.substring(x + 1))
-                    false
-                }
-            } else {
-                false
-            }
+            if (y % pair.y == 0) fields[y][pair.calculateX(y) % width] == '#' else false
         }
     }
 }
